@@ -103,6 +103,18 @@ func (arr *SRArr) SortRSNode() {
 	sort.Sort(arr)
 }
 
+func (arr *SRArr) FindSessByDid(did string) (*SessionPair, error) {
+	findPos := sort.Search(len(*arr), func(i int) bool {
+		return (*arr)[i].keyDid >= did
+	})
+
+	if findPos < len(*arr) && (*arr)[findPos].keyDid == did {
+		return (*arr)[findPos].valSess, nil
+	} else {
+		return nil, nil
+	}
+}
+
 func insertNode(arr *SRArr, idx int, node []SRNode) {
 	rightLen := len(*arr) - idx + 1
 	iNode := make([]SRNode, 1, rightLen)
